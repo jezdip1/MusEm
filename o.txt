@@ -1,0 +1,475 @@
+./
+├── Code
+│   ├── archive_versions
+│   ├── buildSchedule1.m
+│   ├── buildSchedule.m
+│   ├── computeIDParity.m
+│   ├── doAffectTrial1.m
+│   ├── doAffectTrial2.m
+│   ├── doAffectTrial.m
+│   ├── doEmTrial1.m
+│   ├── doEmTrial2.m
+│   ├── doEmTrial.m
+│   ├── doImpTrial1.m
+│   ├── doImpTrial2.m
+│   ├── doImpTrial3.m
+│   ├── doImpTrial4.m
+│   ├── doImpTrial.m
+│   ├── getClick.m
+│   ├── initSyncDevice1.m
+│   ├── initSyncDevice.m
+│   ├── makeTriggerCodesTable.m
+│   ├── Parallel_Port_32MATLAB_64Windows
+│   │   ├── config_io_32.m
+│   │   ├── inp_32.m
+│   │   ├── io32.mexw32
+│   │   ├── outp_32.m
+│   │   ├── Paralle Port 32bit MATLAB on 64bit Windows.docx
+│   │   ├── Paralle Port 32bit MATLAB on 64bit Windows.pdf
+│   │   └── port_test.m
+│   ├── Parallel_Port_64MATLAB_64Windows
+│   │   ├── config_io_64.m
+│   │   ├── inp_64.m
+│   │   ├── inpoutx64.dll
+│   │   ├── io64.mexw64
+│   │   ├── outp_64.m
+│   │   ├── Parallel Port 64bit MATLAB 64bit Windows.docx
+│   │   ├── Parallel Port 64bit MATLAB 64bit Windows.pdf
+│   │   ├── port_test1_255.m
+│   │   └── port_test.m
+│   ├── ppdev-mex
+│   │   ├── lptwrite.m
+│   │   ├── Octave3LinuxFiles64
+│   │   │   ├── lptwrite.m
+│   │   │   └── ppdev_mex.mex
+│   │   ├── Octave5LinuxFiles64
+│   │   │   ├── lptwrite.m
+│   │   │   └── ppdev_mex.mex
+│   │   ├── ppdev_mex.c
+│   │   ├── ppdev_mex.m
+│   │   ├── ppdev_mex.mexa64
+│   │   └── README.md
+│   ├── runAffectCondition.m
+│   ├── runEmCondition.m
+│   ├── runExperiment.m
+│   ├── runExperiment.m~
+│   ├── runImpCondition.m
+│   ├── safeSave.m
+│   ├── scaleRect.m
+│   ├── sendSubjectVersion.m
+│   ├── showDimensionalScale.m
+│   ├── showEmRating.m
+│   ├── showEmRating.m~
+│   ├── showLoadScale.m
+│   ├── showPNG.m
+│   ├── showPNGwaitClick.m
+│   ├── showWelcomeScreen.m
+│   ├── syncTriggerOff.m
+│   ├── syncTriggerOn.m
+│   ├── testJoystick.m
+│   ├── testVolumeTask.m
+│   ├── TriggerCodes.m
+│   └── twoButtonResp.m
+├── MusEm task paradigm notes v3.docx
+├── PNG
+│   ├── break.png
+│   ├── condition_end.png
+│   ├── end_page.png
+│   ├── feedback.png
+│   ├── fix.png
+│   ├── inst_affect.png
+│   ├── inst_em.png
+│   ├── inst_imp.png
+│   ├── q_num.png
+│   ├── q_type.png
+│   ├── re_dim.png
+│   ├── re_dis.png
+│   ├── re_load.png
+│   ├── re_num.png
+│   ├── re_type.png
+│   ├── stim.png
+│   ├── vol_test_base.png
+│   ├── vol_test.png
+│   └── welcome_page.png
+├── Quest
+│   ├── Chin, Rickard - 2012 - The Music USE (MUSE) Questionnaire An Instrument to Measure Engagement in Music.pdf
+│   ├── Chin-Rickard_MUSE_Scoring-Sheet.pdf
+│   ├── Dotaznik TAS-20_corr.docx
+│   └── MUSE-A.docx
+├── Results
+└── Stimuli
+    ├── Affect_Em
+    │   ├── normalize_wavs.m
+    │   ├── Practice - wav
+    │   │   ├── 002.wav
+    │   │   ├── 031.wav
+    │   │   ├── 032.wav
+    │   │   └── 074.wav
+    │   ├── Practice - wav_orig
+    │   │   ├── 032.wav
+    │   │   └── 074.wav
+    │   ├── Stimulus desc select
+    │   │   ├── emotion_circumplex_40.png
+    │   │   ├── FIN_merged_summary.csv
+    │   │   ├── mean_ratings_set2_forR.csv
+    │   │   ├── selected_stimuli_40.csv
+    │   │   ├── stimSelectNew_select20_SD.R
+    │   │   └── stimSelectNew_select40_SD.R
+    │   ├── Subset 1 - 40 - wav
+    │   │   ├── 012.wav
+    │   │   ├── 013.wav
+    │   │   ├── 014.wav
+    │   │   ├── 015.wav
+    │   │   ├── 021.wav
+    │   │   ├── 025.wav
+    │   │   ├── 027.wav
+    │   │   ├── 029.wav
+    │   │   ├── 031.wav
+    │   │   ├── 041.wav
+    │   │   ├── 042.wav
+    │   │   ├── 043.wav
+    │   │   ├── 044.wav
+    │   │   ├── 045.wav
+    │   │   ├── 050.wav
+    │   │   ├── 052.wav
+    │   │   ├── 054.wav
+    │   │   ├── 057.wav
+    │   │   ├── 059.wav
+    │   │   ├── 060.wav
+    │   │   ├── 063.wav
+    │   │   ├── 065.wav
+    │   │   ├── 069.wav
+    │   │   ├── 070.wav
+    │   │   ├── 071.wav
+    │   │   ├── 072.wav
+    │   │   ├── 078.wav
+    │   │   ├── 083.wav
+    │   │   ├── 084.wav
+    │   │   ├── 086.wav
+    │   │   ├── 087.wav
+    │   │   ├── 090.wav
+    │   │   ├── 091.wav
+    │   │   ├── 093.wav
+    │   │   ├── 096.wav
+    │   │   ├── 098.wav
+    │   │   ├── 103.wav
+    │   │   ├── 104.wav
+    │   │   ├── 105.wav
+    │   │   └── 109.wav
+    │   ├── Subset 1 - 40 - wav_orig
+    │   │   ├── 012.wav
+    │   │   ├── 013.wav
+    │   │   ├── 014.wav
+    │   │   ├── 015.wav
+    │   │   ├── 021.wav
+    │   │   ├── 025.wav
+    │   │   ├── 027.wav
+    │   │   ├── 029.wav
+    │   │   ├── 031.wav
+    │   │   ├── 041.wav
+    │   │   ├── 042.wav
+    │   │   ├── 043.wav
+    │   │   ├── 044.wav
+    │   │   ├── 045.wav
+    │   │   ├── 050.wav
+    │   │   ├── 052.wav
+    │   │   ├── 054.wav
+    │   │   ├── 057.wav
+    │   │   ├── 059.wav
+    │   │   ├── 060.wav
+    │   │   ├── 063.wav
+    │   │   ├── 065.wav
+    │   │   ├── 069.wav
+    │   │   ├── 070.wav
+    │   │   ├── 071.wav
+    │   │   ├── 072.wav
+    │   │   ├── 078.wav
+    │   │   ├── 083.wav
+    │   │   ├── 084.wav
+    │   │   ├── 086.wav
+    │   │   ├── 087.wav
+    │   │   ├── 090.wav
+    │   │   ├── 091.wav
+    │   │   ├── 093.wav
+    │   │   ├── 096.wav
+    │   │   ├── 098.wav
+    │   │   ├── 103.wav
+    │   │   ├── 104.wav
+    │   │   ├── 105.wav
+    │   │   └── 109.wav
+    │   ├── Subset 2 - 40 - wav
+    │   │   ├── 002.wav
+    │   │   ├── 011.wav
+    │   │   ├── 017.wav
+    │   │   ├── 018.wav
+    │   │   ├── 019.wav
+    │   │   ├── 023.wav
+    │   │   ├── 028.wav
+    │   │   ├── 033.wav
+    │   │   ├── 035.wav
+    │   │   ├── 036.wav
+    │   │   ├── 037.wav
+    │   │   ├── 039.wav
+    │   │   ├── 040.wav
+    │   │   ├── 047.wav
+    │   │   ├── 048.wav
+    │   │   ├── 049.wav
+    │   │   ├── 051.wav
+    │   │   ├── 053.wav
+    │   │   ├── 055.wav
+    │   │   ├── 056.wav
+    │   │   ├── 058.wav
+    │   │   ├── 061.wav
+    │   │   ├── 064.wav
+    │   │   ├── 068.wav
+    │   │   ├── 073.wav
+    │   │   ├── 075.wav
+    │   │   ├── 076.wav
+    │   │   ├── 077.wav
+    │   │   ├── 079.wav
+    │   │   ├── 081.wav
+    │   │   ├── 082.wav
+    │   │   ├── 085.wav
+    │   │   ├── 088.wav
+    │   │   ├── 094.wav
+    │   │   ├── 099.wav
+    │   │   ├── 100.wav
+    │   │   ├── 102.wav
+    │   │   ├── 106.wav
+    │   │   ├── 107.wav
+    │   │   └── 108.wav
+    │   └── Subset 2 - 40 - wav_orig
+    │       ├── 002.wav
+    │       ├── 011.wav
+    │       ├── 017.wav
+    │       ├── 018.wav
+    │       ├── 019.wav
+    │       ├── 023.wav
+    │       ├── 028.wav
+    │       ├── 033.wav
+    │       ├── 035.wav
+    │       ├── 036.wav
+    │       ├── 037.wav
+    │       ├── 039.wav
+    │       ├── 040.wav
+    │       ├── 047.wav
+    │       ├── 048.wav
+    │       ├── 049.wav
+    │       ├── 051.wav
+    │       ├── 053.wav
+    │       ├── 055.wav
+    │       ├── 056.wav
+    │       ├── 058.wav
+    │       ├── 061.wav
+    │       ├── 064.wav
+    │       ├── 068.wav
+    │       ├── 073.wav
+    │       ├── 075.wav
+    │       ├── 076.wav
+    │       ├── 077.wav
+    │       ├── 079.wav
+    │       ├── 081.wav
+    │       ├── 082.wav
+    │       ├── 085.wav
+    │       ├── 088.wav
+    │       ├── 094.wav
+    │       ├── 099.wav
+    │       ├── 100.wav
+    │       ├── 102.wav
+    │       ├── 106.wav
+    │       ├── 107.wav
+    │       └── 108.wav
+    ├── Icons
+    │   ├── stim_icon.png
+    │   └── volume_test.png
+    ├── Imp
+    │   ├── BK check.xlsx
+    │   ├── mp3
+    │   │   ├── 009.mp3
+    │   │   ├── 012.mp3
+    │   │   ├── 013.mp3
+    │   │   ├── 014.mp3
+    │   │   ├── 017.mp3
+    │   │   ├── 018.mp3
+    │   │   ├── 019.mp3
+    │   │   ├── 023.mp3
+    │   │   ├── 025.mp3
+    │   │   ├── 027.mp3
+    │   │   ├── 031.mp3
+    │   │   ├── 033.mp3
+    │   │   ├── 046.mp3
+    │   │   ├── 052.mp3
+    │   │   ├── 053.mp3
+    │   │   ├── 060.mp3
+    │   │   ├── 069.mp3
+    │   │   ├── 077.mp3
+    │   │   ├── 078.mp3
+    │   │   ├── 083.mp3
+    │   │   ├── 086.mp3
+    │   │   ├── 087.mp3
+    │   │   ├── 088.mp3
+    │   │   ├── 099.mp3
+    │   │   ├── 109.mp3
+    │   │   ├── 114.mp3
+    │   │   ├── 116.mp3
+    │   │   ├── 117.mp3
+    │   │   ├── 119.mp3
+    │   │   ├── 120.mp3
+    │   │   ├── 121.mp3
+    │   │   ├── 123.mp3
+    │   │   ├── 133.mp3
+    │   │   ├── 136.mp3
+    │   │   ├── 138.mp3
+    │   │   ├── 140.mp3
+    │   │   ├── 144.mp3
+    │   │   ├── 147.mp3
+    │   │   ├── 150.mp3
+    │   │   ├── 151.mp3
+    │   │   ├── 153.mp3
+    │   │   ├── 156.mp3
+    │   │   ├── 160.mp3
+    │   │   ├── 164.mp3
+    │   │   ├── 172.mp3
+    │   │   ├── 174.mp3
+    │   │   ├── 175.mp3
+    │   │   ├── 179.mp3
+    │   │   ├── 185.mp3
+    │   │   ├── 186.mp3
+    │   │   ├── 195.mp3
+    │   │   ├── 198.mp3
+    │   │   ├── 199.mp3
+    │   │   ├── 205.mp3
+    │   │   ├── 208.mp3
+    │   │   ├── 209.mp3
+    │   │   ├── 225.mp3
+    │   │   ├── 226.mp3
+    │   │   ├── 228.mp3
+    │   │   ├── 256.mp3
+    │   │   ├── 259.mp3
+    │   │   ├── 262.mp3
+    │   │   ├── 268.mp3
+    │   │   ├── 280.mp3
+    │   │   ├── 282.mp3
+    │   │   ├── 284.mp3
+    │   │   ├── 285.mp3
+    │   │   ├── 286.mp3
+    │   │   ├── 291.mp3
+    │   │   ├── 292.mp3
+    │   │   ├── 298.mp3
+    │   │   ├── 315.mp3
+    │   │   ├── 316.mp3
+    │   │   ├── 324.mp3
+    │   │   ├── 342.mp3
+    │   │   ├── 347.mp3
+    │   │   ├── 354.mp3
+    │   │   ├── 355.mp3
+    │   │   ├── 358.mp3
+    │   │   └── 359.mp3
+    │   ├── normalize_wavs.m
+    │   ├── Practice - wav
+    │   │   ├── 002.wav
+    │   │   ├── 031.wav
+    │   │   ├── Copy of 032.wav
+    │   │   └── Copy of 074.wav
+    │   ├── Practice - wav_orig
+    │   │   ├── 002.wav
+    │   │   ├── 031.wav
+    │   │   ├── Copy of 032.wav
+    │   │   └── Copy of 074.wav
+    │   ├── Stimulus desc select
+    │   │   ├── comparison_valence_arousal.png
+    │   │   ├── imp_select_script.R
+    │   │   ├── imp_set_select.csv
+    │   │   ├── imp_set_selected_stimuli_40.xlsx
+    │   │   ├── imp_set_valence_arousal.png
+    │   │   └── selected_stimuli_40.csv
+    │   ├── Subset Imp - wav
+    │   │   ├── 009.wav
+    │   │   ├── 011.wav
+    │   │   ├── 014.wav
+    │   │   ├── 017.wav
+    │   │   ├── 018.wav
+    │   │   ├── 023.wav
+    │   │   ├── 024.wav
+    │   │   ├── 025.wav
+    │   │   ├── 031.wav
+    │   │   ├── 033.wav
+    │   │   ├── 047.wav
+    │   │   ├── 052.wav
+    │   │   ├── 057.wav
+    │   │   ├── 060.wav
+    │   │   ├── 069.wav
+    │   │   ├── 087.wav
+    │   │   ├── 095.wav
+    │   │   ├── 101.wav
+    │   │   ├── 116.wav
+    │   │   ├── 137.wav
+    │   │   ├── 141.wav
+    │   │   ├── 144.wav
+    │   │   ├── 147.wav
+    │   │   ├── 150.wav
+    │   │   ├── 164.wav
+    │   │   ├── 172.wav
+    │   │   ├── 175.wav
+    │   │   ├── 179.wav
+    │   │   ├── 186.wav
+    │   │   ├── 194.wav
+    │   │   ├── 208.wav
+    │   │   ├── 209.wav
+    │   │   ├── 226.wav
+    │   │   ├── 236.wav
+    │   │   ├── 268.wav
+    │   │   ├── 282.wav
+    │   │   ├── 285.wav
+    │   │   ├── 291.wav
+    │   │   ├── 292.wav
+    │   │   └── 298.wav
+    │   └── Subset Imp - wav_orig
+    │       ├── 009.wav
+    │       ├── 011.wav
+    │       ├── 014.wav
+    │       ├── 017.wav
+    │       ├── 018.wav
+    │       ├── 023.wav
+    │       ├── 024.wav
+    │       ├── 025.wav
+    │       ├── 031.wav
+    │       ├── 033.wav
+    │       ├── 047.wav
+    │       ├── 052.wav
+    │       ├── 057.wav
+    │       ├── 060.wav
+    │       ├── 069.wav
+    │       ├── 087.wav
+    │       ├── 095.wav
+    │       ├── 101.wav
+    │       ├── 116.wav
+    │       ├── 137.wav
+    │       ├── 141.wav
+    │       ├── 144.wav
+    │       ├── 147.wav
+    │       ├── 150.wav
+    │       ├── 164.wav
+    │       ├── 172.wav
+    │       ├── 175.wav
+    │       ├── 179.wav
+    │       ├── 186.wav
+    │       ├── 194.wav
+    │       ├── 208.wav
+    │       ├── 209.wav
+    │       ├── 226.wav
+    │       ├── 236.wav
+    │       ├── 268.wav
+    │       ├── 282.wav
+    │       ├── 285.wav
+    │       ├── 291.wav
+    │       ├── 292.wav
+    │       └── 298.wav
+    ├── normalize_wavs.m
+    ├── Volume test
+    │   └── 02 Piste 2.wav
+    └── Volume test_orig
+        ├── 02 Piste 2 cut.wav
+        └── 02 Piste 2.wav
+
+35 directories, 587 files
