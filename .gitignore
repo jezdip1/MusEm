@@ -1,0 +1,31 @@
+# ---------- Binární audio soubory ----------
+*.wav
+*.mp3
+
+# ---------- Data a výsledky ----------
+Results/               # celý adresář Results
+Stimuli/               # celý adresář Stimuli
+# Pokud chcete, aby ve Stimuli/ a Results/ zůstaly vidět prázdné složky, 
+# vložte v nich soubor .gitkeep (nebo prázdnou .gitignore) a odkomentujte níže:
+!Results/.gitkeep
+!Stimuli/.gitkeep
+
+# ---------- Backupy & dočasné soubory ----------
+*~                     # soubory končící vlnovkou (matlab backup)
+#*.mat                  # případně matlabovské binárky
+#*.xlsx                 # excel dotazníky a seznamy
+#*.xls                  # starší excel
+#*.csv                  # pokud nechcete verzovat velké CSV
+
+# ---------- MATLAB zálohy -----------
+# editory často automaticky generují:
+*.asv
+*.m~                  
+
+# ---------- Git LFS track (pokud se rozhodnete některé WAV pak přece jen verzovat) ----------
+# *.wav filter=lfs diff=lfs merge=lfs -text
+
+# ---------- Submoduly / knihovny / build ------------
+# pokud byste měli složku s kompilovanými mexy nebo externími knihovnami
+#addpath/            
+
