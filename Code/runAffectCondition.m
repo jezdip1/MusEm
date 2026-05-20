@@ -28,11 +28,12 @@ for i = 1:height(sched)
         showPNGwaitClick(params,png.instr,[1060 1668 1956 1912]);
     end
 
+    printTrialInfo(params, r);
     % Run trial
     S = doAffectTrial(params, r.WavPath{1}, r.TaskType{1}, r.IsPractice,r.Block,r.TrialIndex,png);
     % Append
     newRow = {params.subjID, 'Affect', r.IsPractice, r.WavPath{1}, r.TaskType{1}, ...
-               r.TrialIndex, r.Block, '', 0, 0, 0, ...  % resp/rtTask/load not used
+               r.TrialIndex, r.Block, '', NaN, NaN, NaN, ...  % resp/rtTask/load not used
                S.pref, S.arousal, S.valence, "", S.rtDim, NaN, datetime('now'),...
                NaT,NaT,NaT,NaT,NaT,NaT,NaT,NaT,NaT,NaT,NaT,NaT,NaT,NaT,NaT,NaT,NaT,NaT,...
                 S.AffPracticeFixBaselineOnset,...

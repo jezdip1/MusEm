@@ -28,8 +28,15 @@ function showPNGwaitClick(params, pngPath, imgCont)
     Screen('Flip',params.win);
     ShowCursor('Arrow', params.win);
 
+    if isAutoPilot(params)
+        WaitSecs(autoPilotDelay(params));
+        Screen('Close', tex);
+        return;
+    end
+
     % 5) Wait loop
     while true
+        checkAbort();
         % mouse state
         [mx,my,mb] = GetMouse(params.win);
         mouseClick = any(mb) && IsInRect(mx,my,contRect);

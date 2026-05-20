@@ -46,7 +46,21 @@ function testVolumeTask(params)
     ShowCursor('Arrow', params.win);
 
     %% 8) Main loop
+    if isAutoPilot(params)
+        Screen('DrawTexture',params.win,tex,[],dest);
+        Screen('FrameRect',params.win,[50 200 255],scrPlay,5);
+        Screen('Flip',params.win);
+        PsychPortAudio('FillBuffer', params.pahandle, y);
+        PsychPortAudio('Start',      params.pahandle, 1, 0, 1);
+        PsychPortAudio('Stop',       params.pahandle, 1);
+        WaitSecs(autoPilotDelay(params));
+        Screen('Close', tex);
+        HideCursor(params.win);
+        return;
+    end
+
     while true
+        checkAbort();
         % Draw background
         Screen('DrawTexture',params.win,tex,[],dest);
 

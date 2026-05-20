@@ -31,12 +31,13 @@ function [rating, rt] = showLoadScale(params,pngFile)
     contRect = scaleRect(imgCont, imgW,imgH,outW,outH,left,top);
 
     %% 4) Initialize selection & timing
-    selection = NaN;          % 1–9
+    selection = 5;            % 1–9; start at neutral as requested
     prevAxis  = 0;            % for debouncing stick
     tStart    = GetSecs;
 
     %% 5) Main loop
     while true
+        checkAbort();
         % — draw background
         Screen('DrawTexture',params.win,tex,[],dest);
 
@@ -56,6 +57,13 @@ function [rating, rt] = showLoadScale(params,pngFile)
 
         Screen('Flip',params.win);
         ShowCursor('Arrow',params.win);
+
+        if isAutoPilot(params)
+            WaitSecs(autoPilotDelay(params));
+            rating = autoPilotChoice(params, 9);
+            rt = autoPilotRT(params);
+            break;
+        end
 
         % — read inputs
         [mx,my,mb] = GetMouse(params.win);
@@ -99,17 +107,9 @@ function [rating, rt] = showLoadScale(params,pngFile)
         % 5b) Gamepad stick: change selection
         if ~isempty(params.joy)
             if horiz < -0.5 && prevAxis >= -0.5
-                if isnan(selection)
-                    selection = 1;
-                else
-                    selection = max(1,selection-1);
-                end
+                selection = max(1,selection-1);
             elseif horiz > 0.5 && prevAxis <= 0.5
-                if isnan(selection)
-                    selection = 1;
-                else
-                    selection = min(9,selection+1);
-                end
+                selection = min(9,selection+1);
             end
             prevAxis = horiz;
 

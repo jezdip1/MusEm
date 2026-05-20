@@ -37,7 +37,7 @@ S.AffTrialAnsweringValenceOnset=NaT;
         
     end
     showPNG(params, png.fix);
-    WaitSecs(5);
+    WaitSecs(params.fixDuration);
 %%
     % 2) Load & prepare stimulus
     [y, fs] = audioread(wavPath);
@@ -62,6 +62,7 @@ S.AffTrialAnsweringValenceOnset=NaT;
 %     code = find(strcmp(taskType,{'type','num','disc','dim'}));
 %     syncTriggerOn(params.sync, code);
     PsychPortAudio('FillBuffer', params.pahandle, y');
+    showPNG(params, fullfile(params.pngDir,'stim.png'));
     if isPractice
         S.AffPracticePlaySoundOnset=datetime('now');
         syncTriggerOn(params.sync,TriggerCodes.AffPracticePlaySoundOnset);
@@ -75,6 +76,7 @@ S.AffTrialAnsweringValenceOnset=NaT;
 %%
 % 6) Capture exactly N samples, block by block
     while idx <= N
+        checkAbort();
         frame = params.audioReader();          % returns up to blockSize samples
         n     = numel(frame);
         if idx + n - 1 > N
@@ -102,7 +104,12 @@ S.AffTrialAnsweringValenceOnset=NaT;
     else
         fname = sprintf('%s_Affect_trial_%02d_%02d_rec.wav',   params.subjID, Block, trialIndex);
     end
-    recFile = fullfile(params.resultsDir, fname);
+    recDir = params.resultsDir;
+    if isfield(params,'recordingsDir') && ~isempty(params.recordingsDir)
+        recDir = params.recordingsDir;
+    end
+    if ~exist(recDir,'dir'), mkdir(recDir); end
+    recFile = fullfile(recDir, fname);
     audiowrite(recFile, recBuf, params.samplerate);
 %%
     % 9) Dimensional rating 

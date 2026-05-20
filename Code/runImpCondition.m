@@ -34,6 +34,7 @@ for i = 1:height(sched)
         showPNGwaitClick(params,png.instr,[1060 1668 1956 1912]);
     end
 
+    printTrialInfo(params, r);
     % Execute one trial
     S = doImpTrial(params, r.WavPath{1}, r.TaskType{1}, r.IsPractice,r.Block,r.TrialIndex);
     % Append to unified results table

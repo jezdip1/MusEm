@@ -37,7 +37,30 @@ S.ImpPracticeAnsweringLoadNumOnset=NaT;
 S.ImpPracticeAnsweringLoadTypeOnset=NaT;
 S.ImpTrialAnsweringLoadNumOnset=NaT;
 S.ImpTrialAnsweringLoadTypeOnset=NaT;
-%% show fix for baseline 5 secs
+%% 1) Show the question PNG first, then fixation before the stimulus.
+    % This follows the current paradigm notes: question -> fixation 2500 ms -> stimulus.
+    if isPractice
+        if strcmp(taskType,'num')
+            S.ImpPracticeSubQuestionNumOnset=datetime('now');
+            syncTriggerOn(params.sync,TriggerCodes.ImpPracticeSubQuestionNumOnset);
+        else
+            S.ImpPracticeSubQuestionTypeOnset=datetime('now');
+            syncTriggerOn(params.sync,TriggerCodes.ImpPracticeSubQuestionTypeOnset);
+        end
+    else
+        if strcmp(taskType,'num')
+            S.ImpTrialSubQuestionNumOnset=datetime('now');
+            syncTriggerOn(params.sync,TriggerCodes.ImpTrialSubQuestionNumOnset);
+        else
+            S.ImpTrialSubQuestionTypeOnset=datetime('now');
+            syncTriggerOn(params.sync,TriggerCodes.ImpTrialSubQuestionTypeOnset);
+        end
+    end
+    qPNG = fullfile(params.pngDir, sprintf('q_%s.png',taskType));
+    showPNG(params, qPNG);
+    WaitSecs(params.questionDuration);
+
+    %% 2) Fixation before playback
     if isPractice
         S.ImpPracticeFixBaselineOnset=datetime('now');
         syncTriggerOn(params.sync,TriggerCodes.ImpPracticeFixBaselineOnset);
@@ -46,34 +69,7 @@ S.ImpTrialAnsweringLoadTypeOnset=NaT;
         syncTriggerOn(params.sync,TriggerCodes.ImpTrialFixBaselineOnset);
     end
     showPNG(params, fullfile(params.pngDir,'fix.png'));
-    WaitSecs(5);
-    %% 1) Show the question PNG
-    if isPractice
-        if strcmp(taskType,'num')
-            S.ImpPracticeSubQuestionNumOnset=datetime('now');
-            syncTriggerOn(params.sync,TriggerCodes.ImpPracticeSubQuestionNumOnset);
-        else
-            S.ImpPracticeSubQuestionTypeOnset=datetime('now');
-            syncTriggerOn(params.sync,TriggerCodes.ImpPracticeSubQuestionTypeOnset);
-
-        end
-    else
-        if strcmp(taskType,'num')
-            S.ImpTrialSubQuestionNumOnset=datetime('now');
-            syncTriggerOn(params.sync,TriggerCodes.ImpTrialSubQuestionNumOnset);
-
-        else
-            S.ImpTrialSubQuestionTypeOnset=datetime('now');
-            syncTriggerOn(params.sync,TriggerCodes.ImpTrialSubQuestionTypeOnset);
-            
-        end
-    end
-    qPNG = fullfile(params.pngDir, sprintf('q_%s.png',taskType));
-    showPNG(params, qPNG);
-    WaitSecs(2.5);
-
-    %% 2) Fixation
-    showPNG(params, fullfile(params.pngDir,'fix.png'));
+    WaitSecs(params.fixDuration);
 
     %% 3) Load & prepare stimulus
     [y, fs] = audioread(wavPath);
@@ -95,6 +91,7 @@ S.ImpTrialAnsweringLoadTypeOnset=NaT;
 %     code = find(strcmp(taskType,{'type','num','disc','dim'}));
 %     syncTriggerOn(params.sync, code);
     PsychPortAudio('FillBuffer', params.pahandle, y);
+    showPNG(params, fullfile(params.pngDir,'stim.png'));
     if isPractice
         S.ImpPracticePlaySoundOnset=datetime('now');
         syncTriggerOn(params.sync,TriggerCodes.ImpPracticePlaySoundOnset);
@@ -109,6 +106,7 @@ S.ImpTrialAnsweringLoadTypeOnset=NaT;
     %% 6) Capture exactly N samples, block by block
     idx = 1;
     while idx <= N
+        checkAbort();
         frame = params.audioReader();  % returns up to SamplesPerFrame
         n     = numel(frame);
         if idx + n - 1 > N
@@ -136,7 +134,12 @@ S.ImpTrialAnsweringLoadTypeOnset=NaT;
     else
         fname = sprintf('%s_Imp_B%02d_T%02d_rec.wav',           params.subjID, Block, trialIndex);
     end
-    recFile = fullfile(params.resultsDir, fname);
+    recDir = params.resultsDir;
+    if isfield(params,'recordingsDir') && ~isempty(params.recordingsDir)
+        recDir = params.recordingsDir;
+    end
+    if ~exist(recDir,'dir'), mkdir(recDir); end
+    recFile = fullfile(recDir, fname);
     audiowrite(recFile, recBuf, params.samplerate);
 
     %% 9) Collect behavioral responses

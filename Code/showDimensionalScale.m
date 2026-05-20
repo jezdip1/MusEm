@@ -43,7 +43,7 @@ SS.ValenceOnset=NaT;
     contRect = scaleRect(imgCont, wImg,hImg,outW,outH,left,top);
 
     %% 4) Initialize
-    p = NaN; a = NaN; v = NaN;      % slider values
+    p = 5; a = 5; v = 5;            % slider values; start at neutral as requested
     active = 1;                     % 1=pref,2=arousal,3=valence
     prevActive=1;
     SS.PrefOnset=datetime('now');
@@ -58,6 +58,7 @@ SS.ValenceOnset=NaT;
 
     %% 5) Main loop
     while true
+        checkAbort();
         % — Draw background
         Screen('DrawTexture', params.win, tex, [], dest);
 
@@ -88,6 +89,26 @@ SS.ValenceOnset=NaT;
 
         Screen('Flip', params.win);
         ShowCursor('Arrow', params.win);
+
+        if isAutoPilot(params)
+            WaitSecs(autoPilotDelay(params));
+            p = autoPilotChoice(params, 9);
+            a = autoPilotChoice(params, 9);
+            v = autoPilotChoice(params, 9);
+            nowT = datetime('now');
+            SS.PrefOnset = nowT;
+            SS.ArousalOnset = datetime('now');
+            SS.ValenceOnset = datetime('now');
+            if isPractice
+                syncTriggerOn(params.sync,TriggerCodes.AffPracticeAnsweringArousalOnset);
+                syncTriggerOn(params.sync,TriggerCodes.AffPracticeAnsweringValenceOnset);
+            else
+                syncTriggerOn(params.sync,TriggerCodes.AffTrialAnsweringArousalOnset);
+                syncTriggerOn(params.sync,TriggerCodes.AffTrialAnsweringValenceOnset);
+            end
+            rt = autoPilotRT(params);
+            break;
+        end
 
         % — Read inputs
         [mx,my,mb] = GetMouse(params.win);
@@ -132,20 +153,20 @@ SS.ValenceOnset=NaT;
         if horiz < -0.5 && prevHor >= -0.5
             switch active
               case 1
-                if isnan(p), p=1; else p=max(1,p-1); end
+                p = max(1,p-1);
               case 2
-                if isnan(a), a=1; else a=max(1,a-1); end
+                a = max(1,a-1);
               case 3
-                if isnan(v), v=1; else v=max(1,v-1); end
+                v = max(1,v-1);
             end
         elseif horiz > 0.5 && prevHor <= 0.5
             switch active
               case 1
-                if isnan(p), p=1; else p=min(9,p+1); end
+                p = min(9,p+1);
               case 2
-                if isnan(a), a=1; else a=min(9,a+1); end
+                a = min(9,a+1);
               case 3
-                if isnan(v), v=1; else v=min(9,v+1); end
+                v = min(9,v+1);
             end
         end
         prevHor = horiz;

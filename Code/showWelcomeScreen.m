@@ -42,6 +42,13 @@ function showWelcomeScreen(params)
     Screen('Flip',params.win);
     ShowCursor('Arrow',params.win);
 
+    if isAutoPilot(params)
+        WaitSecs(autoPilotDelay(params));
+        Screen('Close',tex);
+        HideCursor(params.win);
+        return;
+    end
+
     %% 6) Wait for click (mouse inside rect OR any joystick button)
     while true
         % 6a) Mouse state

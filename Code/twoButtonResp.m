@@ -35,6 +35,7 @@ function [resp, rt] = twoButtonResp(params, pngFile)
 
     % 6) Main loop
     while resp == ""
+        checkAbort();
         % 6a) Draw background
         Screen('DrawTexture', params.win, tex, [], dest);
 
@@ -54,6 +55,14 @@ function [resp, rt] = twoButtonResp(params, pngFile)
         end
 
         Screen('Flip', params.win);
+
+        if isAutoPilot(params)
+            WaitSecs(autoPilotDelay(params));
+            selection = autoPilotChoice(params, 2);
+            resp = sprintf('btn%d', selection);
+            rt = autoPilotRT(params);
+            break;
+        end
 
         % 6d) Mouse input
         [mx,my,mb] = GetMouse(params.win);

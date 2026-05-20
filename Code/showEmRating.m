@@ -28,10 +28,11 @@ SS.EmotionOnset=NaT;
     contRect = scaleRect(imgCont, wImg,hImg,outW,outH,left,top);
 
     %% 4) Init
-    pref     = NaN;
+    pref     = 5;      % start preference at neutral as requested
     emotion  = "";
     rtPref   = NaN;
     rtEm     = NaN;
+    prefTouched = false;
     t0       = GetSecs;
     active   = 1;     % 1 = pref, 2 = emotion
     prevActive=1;
@@ -51,6 +52,7 @@ SS.EmotionOnset=NaT;
 
     %% 5) Main loop
     while true
+        checkAbort();
         % --- draw background ---
         Screen('DrawTexture',params.win,tex,[],dest);
 
@@ -80,6 +82,22 @@ SS.EmotionOnset=NaT;
         Screen('Flip',params.win);
         ShowCursor('Arrow',params.win);
 
+        if isAutoPilot(params)
+            WaitSecs(autoPilotDelay(params));
+            pref = autoPilotChoice(params, 9);
+            emotion = emList{autoPilotChoice(params, numel(emList))};
+            rtPref = autoPilotRT(params);
+            rtEm = autoPilotRT(params);
+            SS.PrefOnset = datetime('now');
+            SS.EmotionOnset = datetime('now');
+            if isPractice
+                syncTriggerOn(params.sync,TriggerCodes.EmPracticeAnsweringEmotionOnset);
+            else
+                syncTriggerOn(params.sync,TriggerCodes.EmTrialAnsweringEmotionOnset);
+            end
+            break;
+        end
+
         % --- read mouse & joystick ---
         [mx,my,mb] = GetMouse(params.win);
         horiz=0; vert=0; joyB=[];
@@ -96,7 +114,10 @@ SS.EmotionOnset=NaT;
             % select pref
             for k=1:numel(pr)
                 if IsInRect(mx,my,pr{k})
-                    if isnan(pref), rtPref = GetSecs - t0; end
+                    if ~prefTouched
+                        rtPref = GetSecs - t0;
+                        prefTouched = true;
+                    end
                     pref = k;
                 end
             end
@@ -109,6 +130,7 @@ SS.EmotionOnset=NaT;
             end
             % confirm
             if IsInRect(mx,my,contRect) && ~isnan(pref) && strlength(emotion)>0
+                if isnan(rtPref), rtPref = GetSecs - t0; end
                 while any(mb)
                     [~,~,mb] = GetMouse(params.win);
                     WaitSecs(0.01);
@@ -132,11 +154,11 @@ SS.EmotionOnset=NaT;
         % --- gamepad navigation: left/right adjust selection ---
         if horiz < -0.5 && prevHor >= -0.5
             if active==1
-                if isnan(pref)
-                    rtPref = GetSecs - t0; pref=1;
-                else
-                    pref = max(1,pref-1);
+                if ~prefTouched
+                    rtPref = GetSecs - t0;
+                    prefTouched = true;
                 end
+                pref = max(1,pref-1);
             else
                 if strlength(emotion)==0
                     rtEm = GetSecs - t0; emotion=emList{1};
@@ -148,11 +170,11 @@ SS.EmotionOnset=NaT;
             end
         elseif horiz > 0.5 && prevHor <= 0.5
             if active==1
-                if isnan(pref)
-                    rtPref = GetSecs - t0; pref=1;
-                else
-                    pref = min(9,pref+1);
+                if ~prefTouched
+                    rtPref = GetSecs - t0;
+                    prefTouched = true;
                 end
+                pref = min(9,pref+1);
             else
                 if strlength(emotion)==0
                     rtEm = GetSecs - t0; emotion=emList{1};
@@ -187,6 +209,7 @@ SS.EmotionOnset=NaT;
 
         % --- gamepad confirm ---
         if ~isempty(joyB) && any(joyB) && ~isnan(pref) && strlength(emotion)>0
+            if isnan(rtPref), rtPref = GetSecs - t0; end
             % wait for release
             while true
                 [~, buttons] = read(params.joy);

@@ -41,7 +41,7 @@ S.EmTrialAnsweringEmotionOnset=NaT;
         
     end
     showPNG(params, png.fix);
-    WaitSecs(5);
+    WaitSecs(params.fixDuration);
 
     %% 2) Load & prepare stimulus
     [y, fs] = audioread(wavPath);
@@ -64,6 +64,7 @@ S.EmTrialAnsweringEmotionOnset=NaT;
 %     code = find(strcmp(taskType,{'type','num','disc','dim'}));
 %     syncTriggerOn(params.sync, code);
     PsychPortAudio('FillBuffer', params.pahandle, y);
+    showPNG(params, fullfile(params.pngDir,'stim.png'));
     if isPractice
         S.EmPracticePlaySoundOnset=datetime('now');
         syncTriggerOn(params.sync,TriggerCodes.EmPracticePlaySoundOnset);
@@ -78,6 +79,7 @@ S.EmTrialAnsweringEmotionOnset=NaT;
     %% 5) Capture exactly N samples, block by block
     idx = 1;
     while idx <= N
+        checkAbort();
         frame = params.audioReader();        % up to SamplesPerFrame samples
         n     = numel(frame);
         if idx + n - 1 > N
@@ -106,7 +108,12 @@ S.EmTrialAnsweringEmotionOnset=NaT;
     else
         recName = sprintf('%s_Em_trial_%02d_%02d_rec.wav',    params.subjID, Block, trialIndex);
     end
-    recFile = fullfile(params.resultsDir, recName);
+    recDir = params.resultsDir;
+    if isfield(params,'recordingsDir') && ~isempty(params.recordingsDir)
+        recDir = params.recordingsDir;
+    end
+    if ~exist(recDir,'dir'), mkdir(recDir); end
+    recFile = fullfile(recDir, recName);
     audiowrite(recFile, recBuf, params.samplerate);
 
     %% 8) Rating preference + discrete emotion (unchanged)
