@@ -7,7 +7,13 @@ function safeSave(params)
 %   inside stimulus presentation, fixation, audio playback, or trigger-dispatch
 %   code paths.
 try
-    save(params.dataFile,'params','-v7');
+    % Save behavioral state, not handles tied to the old MATLAB process.
+    stored = params;
+    for field = {'sync','joy','audioReader','pahandle','win'}
+        if isfield(stored,field{1}), stored.(field{1}) = []; end
+    end
+    toSave = struct('params',stored);
+    save(params.dataFile,'-struct','toSave','-v7');
 catch ME
     warning('Uložení se nezdařilo: %s',ME.message);
 end

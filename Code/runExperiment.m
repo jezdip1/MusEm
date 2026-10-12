@@ -2,8 +2,12 @@ function runExperiment()
     %% 0) Startup
     clearvars; clc;
     codeDir = fileparts(mfilename('fullpath'));
-    addpath(codeDir);
-    addpath(fullfile(codeDir,'ppdev-mex'));
+    addpath(codeDir, '-begin');
+    addpath(fileparts(codeDir), '-begin');
+    lab = hammer.config('MusEm', fileparts(codeDir));
+    params = struct();
+    cleanupObj = onCleanup(@cleanupRuntime); %#ok<NASGU>
+    if isfolder(fullfile(codeDir,'ppdev-mex')), addpath(fullfile(codeDir,'ppdev-mex')); end
     try, PsychPortAudio('Close'); catch, end
     try, ppdev_mex('CloseAll'); catch, end
 
@@ -11,7 +15,9 @@ function runExperiment()
     syncTriggerOff(params.sync);
 
     PsychDefaultSetup(2);
-    Screen('Preference','SkipSyncTests',1);
+    Screen('Preference','SkipSyncTests',lab.skipSync);
+    params.skipSyncTests = lab.skipSync;
+    params.Runtime = lab.Runtime;
     InitializePsychSound(1);
     rng('shuffle');
     
@@ -37,15 +43,16 @@ function runExperiment()
     else
         params.subjID = input('Zadejte ID participanta: ','s');
     end
+    params.subjID = hammer.subject(params.subjID);
     params = applyAutoPilotSettings(params);
     baseDir    = fileparts(codeDir);
     params.pngDir       = fullfile(baseDir,'PNG');
     % Single place for all stimulus directories
-    params.stimDirImp   = fullfile(baseDir,'Stimuli','Imp');
-    params.stimDirAffect= fullfile(baseDir,'Stimuli','Affect_Em');
-    params.stimDirEm    = fullfile(baseDir,'Stimuli','Affect_Em');
-    params.stimVolTest    = fullfile(baseDir,'Stimuli','Volume test');
-    params.resultsDir          = fullfile(baseDir,'Results');
+    params.stimDirImp   = fullfile(lab.stimuli,'Imp');
+    params.stimDirAffect= fullfile(lab.stimuli,'Affect_Em');
+    params.stimDirEm    = fullfile(lab.stimuli,'Affect_Em');
+    params.stimVolTest    = fullfile(lab.stimuli,'Volume test');
+    params.resultsDir          = lab.results;
     if ~exist(params.resultsDir,'dir'), mkdir(params.resultsDir); end
     params.dataFile     = fullfile(params.resultsDir, sprintf('%s.mat',params.subjID));
 
@@ -92,18 +99,22 @@ function runExperiment()
             end
             if startsWith(upper(strtrim(choice)),'C')
                 % pick up where we left off
-                params             = data.params;
+                currentSync = params.sync; currentJoy = params.joy;
+                params = data.params;
+                params.sync = currentSync; params.joy = currentJoy;
+                params.Runtime = lab.Runtime;
+                params.skipSyncTests = lab.skipSync;
 %                 params.masterSchedule = data.masterSchedule;
 %                 params.resultsTable   = data.resultsTable;
                 resume = true;
             else
                 % start clean
-                delete(params.dataFile);
+                hammer.backupResult(params.dataFile);
                 resume = false;
             end
         else
             warning('Soubor %s nemá všechny potřebné proměnné. Začínám znovu.', params.dataFile);
-            delete(params.dataFile);
+            hammer.backupResult(params.dataFile);
             resume = false;
         end
     else
@@ -302,24 +313,18 @@ if ~resume
 end
 
     %% 4) Open window & audio
-    [params.win, params.winRect] = PsychImaging('OpenWindow', max(Screen('Screens')), 0);
+    [params.win, params.winRect] = PsychImaging('OpenWindow', hammer.screen(lab), 0);
     Screen('TextSize', params.win, 24);
     HideCursor; Priority(MaxPriority(params.win));
 %     pah = PsychPortAudio('Open',audioDeviceID,1,0,44100,2);
-    pah = PsychPortAudio('Open',[],1,0,44100,2);   
+    pah = PsychPortAudio('Open',lab.audio,1,0,44100,2);   
     params.pahandle   = pah;
     params.samplerate = 44100;
 
     % ------------------ mic reader init ------------------
     % ALSA‐string you discovered works:
-    params.micDeviceName = 'HDA Intel PCH: ALC3232 Analog (hw:1,0)';
-    % Create a System object that returns 1‐second chunks:
-    params.audioReader = audioDeviceReader( ...
-        'Device',          params.micDeviceName, ...
-        'SampleRate',      params.samplerate, ...
-        'NumChannels',     1, ...
-        'SamplesPerFrame', 512 ...
-    );
+    params.micDeviceName = lab.mic;
+    params.audioReader = hammer.microphone(lab);
 
 %     PsychPortAudio('Start', pah, 0, 0, 1);
 %     PsychPortAudio('Stop',  pah);
@@ -377,6 +382,23 @@ end
     try, PsychPortAudio('Close', pah); catch, PsychPortAudio('Close'); end
 %     PsychPortAudio('Close', params.recHandle);
     fprintf('Done. Data saved: %s\n', params.dataFile);
+
+    function cleanupRuntime()
+        % Also runs if schedule, window or microphone initialization fails.
+        if isfield(params,'sync')
+            try, syncTriggerOff(params.sync); catch, end
+            if isfield(params.sync,'serial')
+                try, delete(params.sync.serial); catch, end
+            end
+        end
+        if isfield(params,'audioReader'), try, release(params.audioReader); catch, end; end
+        if isfield(params,'joy') && ~isempty(params.joy), try, close(params.joy); catch, end; end
+        try, PsychPortAudio('Close'); catch, end
+        try, Screen('CloseAll'); catch, end
+        try, Priority(0); catch, end
+        try, ShowCursor; catch, end
+        try, ppdev_mex('CloseAll'); catch, end
+    end
 end
 
 

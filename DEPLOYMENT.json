@@ -1,0 +1,10 @@
+{
+  "paradigm": "MusEm",
+  "release": "v0.1.0-rc1-kisargryzen26",
+  "state": "prepared_not_hardware_validated",
+  "snapshot": "MusEm_Snapshot_12102026_no_big_data.7z",
+  "snapshot_sha256": "997dbfb8b4993637b64cb0888501226f3d1f932b08d16c01fee909a336d8f991",
+  "upstream_repository": "jezdip1/MusEm",
+  "upstream_commit": "439062676062f480d9cc6a37889cfa8233047c1c",
+  "prepared_date": "2026-10-12"
+}

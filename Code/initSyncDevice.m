@@ -6,6 +6,16 @@ function syncInfo = initSyncDevice(ppdevPortNum, picoPort)
 %
 % syncInfo.method ∈ {'ppdev_mex','io64','pico','none'}
 
+    % Managed lab runs use the configured Pico and fail if it cannot open.
+    if strcmp(getenv('HAMMER_MANAGED'),'1')
+        picoPort = getenv('HAMMER_TRIGGER_PORT');
+        assert(~isempty(picoPort), 'HAMMER_TRIGGER_PORT is not configured.');
+        sp = serialport(picoPort,hammer.number('HAMMER_TRIGGER_BAUD',115200),'Timeout',1);
+        flush(sp);
+        syncInfo = struct('method','pico','serial',sp);
+        fprintf('Using configured Pico: %s\n',picoPort);
+        return;
+    end
     if nargin<1, ppdevPortNum = 1; end
     if nargin<2, picoPort    = '/dev/ttyACM0'; end
 
